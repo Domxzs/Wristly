@@ -1,155 +1,247 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Wristly</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Wristly Ultra S</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#98A869;
+  --purple:#8469A8;
+  --bg:#0f0f10;
+  --card:#151517;
+}
 
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      text-align: center;
-      background: #ffffff;
-      color: #1d1d1f;
-      margin: 0;
-      padding: 40px;
-      overflow-x: hidden;
-    }
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
 
-    /* 🔥 INTRO ANIMATION SCREEN */
-    .intro {
-      position: fixed;
-      top: -100%;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #1f9d55;
-      z-index: 9999;
-      animation: dropDown 1.2s ease forwards;
-    }
+body{
+  background:var(--bg);
+  color:#fff;
+  overflow-x:hidden;
+  animation: pageIn 0.8s ease forwards;
+}
 
-    @keyframes dropDown {
-      0% { top: -100%; }
-      70% { top: 0%; }
-      100% { top: 100%; opacity: 0; }
-    }
+/* 1. PAGE LOAD ANIMATION */
+@keyframes pageIn{
+  from{opacity:0; transform:translateY(10px);}
+  to{opacity:1; transform:translateY(0);}
+}
 
-    h1 {
-      font-size: 48px;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
+/* HEADER */
+header{
+  padding:20px 40px;
+  background:#111;
+  border-bottom:1px solid #222;
+  animation: headerDrop 0.7s ease;
+}
 
-    p {
-      color: #6e6e73;
-      font-size: 18px;
-      max-width: 600px;
-      margin: 0 auto;
-      line-height: 1.6;
-    }
+/* 2. HEADER DROP */
+@keyframes headerDrop{
+  from{transform:translateY(-20px); opacity:0;}
+  to{transform:translateY(0); opacity:1;}
+}
 
-    img {
-      width: 280px;
-      margin-top: 25px;
-      transition: transform 0.3s ease;
-    }
+/* WRISTLY (NO TRANSITION) */
+.logo{
+  font-size:34px;
+  font-weight:800;
+  letter-spacing:2px;
+  cursor:pointer;
+  display:inline-block;
+}
 
-    img:hover {
-      transform: scale(1.05);
-    }
+/* instant colour swap only */
+.logo:hover{
+  color: var(--green);
+}
 
-    .btn {
-      background: #1f9d55;
-      color: white;
-      padding: 18px 70px;
-      text-decoration: none;
-      display: inline-block;
-      margin-top: 25px;
-      border-radius: 14px;
-      font-weight: 700;
-      font-size: 20px;
-      transition: all 0.3s ease;
-    }
+/* LAYOUT */
+.container{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:40px;
+  padding:40px;
+}
 
-    .btn:hover {
-      background: #167a42;
-      transform: translateY(-3px);
-    }
+/* IMAGE */
+.product-img{
+  width:100%;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,0.08);
+  transition: transform .3s ease, border .3s ease;
+}
 
-    .box {
-      margin-top: 35px;
-    }
+/* 3. IMAGE LIFT */
+.product-img:hover{
+  transform:translateY(-6px) scale(1.02);
+  border:1px solid rgba(152,168,105,0.35);
+}
 
-    select {
-      padding: 10px;
-      border-radius: 8px;
-      margin-top: 10px;
-      font-family: 'Inter', sans-serif;
-    }
+/* BUTTON */
+.button{
+  margin-top:20px;
+  width:100%;
+  padding:18px;
+  font-size:18px;
+  font-weight:700;
+  border:none;
+  cursor:pointer;
+  background:var(--green);
+  color:#000;
+  position:relative;
+  overflow:hidden;
+  transition: transform .25s ease;
+}
 
-    .price {
-      font-size: 26px;
-      font-weight: 700;
-      margin-top: 15px;
-    }
+/* 4. BUTTON HOVER SCALE */
+.button:hover{
+  transform:scale(1.03);
+}
 
-    .features {
-      margin-top: 25px;
-      line-height: 2;
-    }
+/* 5. BUTTON PRESS FEEL */
+.button:active{
+  transform:scale(0.98);
+}
 
-    .tick {
-      color: #1f9d55;
-      font-weight: 700;
-      margin-right: 6px;
-    }
+/* 6. BUTTON SHINE (SUBTLE, NO WIPE) */
+.button::after{
+  content:"";
+  position:absolute;
+  top:-50%;
+  left:-60%;
+  width:40%;
+  height:200%;
+  background:rgba(255,255,255,0.15);
+  transform:rotate(20deg);
+  opacity:0;
+}
 
-    .feature-text {
-      color: #1f9d55;
-      font-weight: 600;
-    }
-  </style>
+.button:hover::after{
+  animation: shine .8s ease forwards;
+}
+
+@keyframes shine{
+  0%{left:-60%; opacity:0;}
+  20%{opacity:1;}
+  100%{left:120%; opacity:0;}
+}
+
+/* CARD TEXT */
+.card{
+  background:var(--card);
+  padding:20px;
+  border-radius:10px;
+  animation: fadeUp .8s ease;
+}
+
+/* 7. FADE UP CONTENT */
+@keyframes fadeUp{
+  from{opacity:0; transform:translateY(15px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* DROPDOWNS */
+details{
+  margin-top:15px;
+  background:#1a1a1c;
+  padding:12px;
+  border-radius:8px;
+  overflow:hidden;
+  transition: all .3s ease;
+}
+
+/* 8. DROPDOWN OPEN ANIMATION */
+details[open] p{
+  animation: dropIn .35s ease;
+}
+
+@keyframes dropIn{
+  from{opacity:0; transform:translateY(-6px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+summary{
+  cursor:pointer;
+  font-weight:600;
+  color:var(--green);
+}
+
+/* 9. HIGHLIGHT GLOW WORDS */
+.highlight{
+  color:var(--purple);
+  transition: none;
+}
+
+.highlight:hover{
+  text-shadow:0 0 10px rgba(132,105,168,0.6);
+}
+
+/* 10. FLOAT EFFECT CARDS */
+.card:hover{
+  transform:translateY(-4px);
+  transition:.3s ease;
+}
+
+/* 11. LINK-LIKE MICRO INTERACTION */
+summary:hover{
+  letter-spacing:0.5px;
+}
+
+/* 12. SMOOTH SCROLL */
+html{
+  scroll-behavior:smooth;
+}
+
+</style>
 </head>
 
 <body>
 
-  <!-- GREEN FALLING INTRO -->
-  <div class="intro"></div>
+<header>
+  <div class="logo">Wristly</div>
+</header>
 
-  <h1>Wristly</h1>
+<div class="container">
 
-  <p>
-    A smartwatch designed for everyday life — helping you stay connected,
-    track your health, and manage your day with ease, without the premium price tag.
-  </p>
+  <div>
+    <img class="product-img"
+      src="https://ae01.alicdn.com/kf/Sd715d33e4f4542a4bc6b7f37206b8c64o.png"/>
 
-  <img src="https://ae01.alicdn.com/kf/Sd715d33e4f4542a4bc6b7f37206b8c64o.png" alt="Wristly Smartwatch">
-
-  <div class="box">
-    <h2>Choose Your Version</h2>
-
-    <select>
-      <option>3GB + 32GB — £69.99</option>
-      <option>4GB + 64GB — £79.99</option>
-      <option>8GB + 128GB — £89.99</option>
-      <option>16GB + 256GB — £99.99</option>
-    </select>
-
-    <div class="price">From £69.99</div>
-
-    <a href="#" class="btn">Buy Now</a>
+    <button class="button">Buy Now – Wristly Ultra S</button>
   </div>
 
-  <div class="box features">
-    <h2 style="color:#1f9d55;">What you get</h2>
+  <div class="card">
+    <h2>Wristly Ultra S</h2>
+    <p style="margin-top:10px; opacity:.8;">
+      A refined smartwatch experience built for simplicity and smooth interaction.
+    </p>
 
-    <p><span class="tick">✔</span> <span class="feature-text">AMOLED display</span> with sharp, smooth visuals</p>
-    <p><span class="tick">✔</span> <span class="feature-text">Heart rate & fitness tracking</span> built for daily use</p>
-    <p><span class="tick">✔</span> <span class="feature-text">Calls & notifications</span> directly on your wrist</p>
-    <p><span class="tick">✔</span> <span class="feature-text">GPS + SIM support</span> for full connectivity</p>
-    <p><span class="tick">✔</span> <span class="feature-text">Built for everyday life</span> — gym, work, travel</p>
+    <details>
+      <summary>What’s in the package</summary>
+      <p>
+        Smart Watch X1<br>
+        <span class="highlight">Original Strap</span> X1<br>
+        Instruction Manual X1<br>
+        Charging Cable
+      </p>
+    </details>
+
+    <details>
+      <summary>What you get</summary>
+      <p>
+        Premium <span class="highlight">AMOLED display</span>,
+        smooth performance, and refined usability.
+      </p>
+    </details>
+
   </div>
+</div>
 
 </body>
 </html>
