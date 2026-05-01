@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Wristly Ultra S</title>
+<title>Wristly</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
@@ -39,21 +39,21 @@ header{
   padding:26px 40px;
   background:#111;
   border-bottom:1px solid #222;
+  position:sticky;
+  top:0;
+  z-index:10;
 }
 
-/* TITLE */
 .logo{
   font-size:64px;
   font-weight:800;
   letter-spacing:2px;
-  cursor:pointer;
+  transition:.35s ease;
   display:inline-block;
-  transition:.25s ease;
 }
 .logo:hover{
   color:var(--green);
   transform:translateY(-2px) scale(1.03);
-  letter-spacing:2px;
 }
 
 /* LAYOUT */
@@ -62,19 +62,7 @@ header{
   grid-template-columns:1fr 1fr;
   gap:45px;
   padding:45px;
-}
-
-/* IMAGE */
-.product-img{
-  width:100%;
-  border-radius:2px;
-  border:1px solid rgba(255,255,255,0.08);
-  transition:.35s ease;
-}
-.product-img:hover{
-  transform:translateY(-10px) scale(1.03);
-  border:1px solid rgba(152,168,105,0.4);
-  filter:brightness(1.05);
+  perspective:1600px;
 }
 
 /* CARD */
@@ -82,10 +70,25 @@ header{
   background:var(--card);
   padding:24px;
   border-radius:2px;
-  transition:.3s ease;
+  transition:transform .45s ease, box-shadow .45s ease;
+  transform-style:preserve-3d;
 }
+
 .card:hover{
-  transform:translateY(-6px);
+  transform:translateY(-8px) rotateX(1deg) rotateY(-1deg);
+  box-shadow:0 20px 55px rgba(0,0,0,0.45);
+}
+
+/* IMAGE */
+.product-img{
+  width:100%;
+  border-radius:2px;
+  transition:.45s ease;
+}
+
+.product-img:hover{
+  transform:scale(1.04) rotateX(0.6deg) rotateY(0.6deg);
+  filter:brightness(1.05);
 }
 
 /* BUTTON */
@@ -102,73 +105,88 @@ header{
   border-radius:2px;
   position:relative;
   overflow:hidden;
-  transition:.25s ease;
+  transition:transform .25s ease, letter-spacing .25s ease;
 }
+
 .button:hover{
-  transform:scale(1.05);
+  transform:scale(1.04);
   letter-spacing:1px;
 }
+
 .button:active{
-  transform:scale(0.97);
+  transform:scale(0.98);
 }
 
-/* SHINE */
-.button::after{
+/* WIPE EFFECT */
+.button::before{
   content:"";
   position:absolute;
-  top:-60%;
-  left:-70%;
-  width:45%;
-  height:200%;
-  background:rgba(255,255,255,0.15);
-  transform:rotate(20deg);
-  opacity:0;
-}
-.button:hover::after{
-  animation:shine .7s ease;
-}
-@keyframes shine{
-  0%{left:-70%; opacity:0;}
-  20%{opacity:1;}
-  100%{left:130%; opacity:0;}
+  top:0;
+  left:-120%;
+  width:120%;
+  height:100%;
+  background:linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
+  transform:skewX(-20deg);
 }
 
-/* DROPDOWNS */
+.button:hover::before{
+  animation:wipe .75s ease;
+}
+
+@keyframes wipe{
+  0%{left:-120%;}
+  100%{left:120%;}
+}
+
+/* DETAILS */
 details{
   margin-top:14px;
   background:#1a1a1c;
   padding:14px;
   border-radius:2px;
-  transition:.3s ease;
+  transition:.35s ease;
 }
+
 details:hover{
-  transform:translateX(4px);
-}
-details[open] p{
-  animation:drop .35s ease;
-}
-@keyframes drop{
-  from{opacity:0; transform:translateY(-8px);}
-  to{opacity:1; transform:translateY(0);}
+  transform:translateX(5px);
+  background:#1d1d20;
 }
 
 summary{
   font-weight:700;
   color:var(--green);
   cursor:pointer;
-  transition:.2s ease;
-}
-summary:hover{
-  letter-spacing:.6px;
-  transform:translateX(3px);
 }
 
-/* HIGHLIGHT */
-.highlight{
-  color:var(--purple);
+/* REVIEWS */
+.review{
+  margin-top:12px;
+  padding:12px;
+  background:#121214;
+  border-left:3px solid var(--purple);
+  transition:.3s ease;
 }
-.highlight:hover{
-  text-shadow:0 0 10px rgba(132,105,168,0.5);
+
+.review:hover{
+  transform:translateX(4px);
+  background:#16161a;
+}
+
+.stars{
+  color:#ffd27a;
+  margin-bottom:6px;
+}
+
+.section-title{
+  margin-top:18px;
+  color:var(--green);
+  font-size:20px;
+}
+
+.small{
+  opacity:.7;
+  font-size:12px;
+  margin-top:6px;
 }
 
 html{scroll-behavior:smooth;}
@@ -181,36 +199,88 @@ html{scroll-behavior:smooth;}
   <div class="logo">Wristly</div>
 </header>
 
+<!-- WRISTLY ULTRA SE -->
 <div class="container">
 
   <div>
     <img class="product-img" src="https://ae01.alicdn.com/kf/Sd715d33e4f4542a4bc6b7f37206b8c64o.png"/>
-    <button class="button">Buy Now – Wristly Ultra S</button>
+    <button class="button">Buy Now – Wristly Ultra SE</button>
   </div>
 
   <div class="card">
-    <h2>Wristly Ultra S</h2>
-    <p style="margin-top:10px; opacity:.8;">
-      A refined smartwatch experience built for simplicity and smooth interaction.
+    <h2>Wristly Ultra SE</h2>
+    <p style="opacity:.8;margin-top:10px;">Smooth smartwatch experience built for simplicity.</p>
+
+    <div class="section-title">Reviews</div>
+
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      Very good build and smooth performance overall.
+      <div class="small">27 Mar 2026</div>
+    </div>
+
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      Nice design and works as expected.
+      <div class="small">06 Mar 2026</div>
+    </div>
+
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      Everything is fine, works well.
+      <div class="small">25 Mar 2026</div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- WRISTLY ULTRA CD12 -->
+<div class="container">
+
+  <div>
+    <img class="product-img" src="https://ae-pic-a1.aliexpress-media.com/kf/S8c4a3bd0eba7434daa21036f7fbcf6c0F.png?has_lang=1&ver=2_220x220.png_.avif"/>
+    <button class="button">Buy Now – Wristly Ultra CD12</button>
+  </div>
+
+  <div class="card">
+    <h2>Wristly Ultra CD12</h2>
+    <p style="opacity:.8;margin-top:10px;">
+      Full Android smartwatch experience with advanced connectivity.
     </p>
 
-    <details>
-      <summary>What’s in the package</summary>
-      <p>
-        Smart Watch X1<br>
-        <span class="highlight">Original Strap</span> X1<br>
-        Instruction Manual X1<br>
-        Charging Cable
-      </p>
-    </details>
+    <div class="section-title">Reviews</div>
 
-    <details>
-      <summary>What you get</summary>
-      <p>
-        Premium <span class="highlight">AMOLED display</span>,
-        smooth performance, and refined usability.
-      </p>
-    </details>
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      Amazing! works perfectly, SIM and hotspot function both work great.
+      <div class="small">26 Mar 2026</div>
+    </div>
+
+    <div class="review">
+      <div class="stars">★★★★☆</div>
+      Works well for the price.
+      <div class="small">13 Feb 2026</div>
+    </div>
+
+    <div class="review">
+      <div class="stars">★★★★☆</div>
+      Delivery took time but device works fine after setup.
+      <div class="small">25 Apr 2026</div>
+    </div>
+
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      Very well, thank you.
+      <div class="small">27 Mar 2026</div>
+    </div>
+
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      Top merci
+      <div class="small">25 Mar 2026</div>
+    </div>
+
   </div>
 
 </div>
