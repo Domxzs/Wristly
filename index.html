@@ -51,6 +51,7 @@ header{
   transition:.35s ease;
   display:inline-block;
 }
+
 .logo:hover{
   color:var(--green);
   transform:translateY(-2px) scale(1.03);
@@ -106,6 +107,7 @@ header{
   position:relative;
   overflow:hidden;
   transition:transform .25s ease, letter-spacing .25s ease;
+  -webkit-tap-highlight-color:transparent;
 }
 
 .button:hover{
@@ -189,7 +191,62 @@ summary{
   margin-top:6px;
 }
 
-html{scroll-behavior:smooth;}
+/* ===== FULL RESPONSIVENESS ===== */
+
+/* Tablet */
+@media (max-width: 1024px){
+  .container{
+    grid-template-columns:1fr;
+    padding:30px;
+    gap:30px;
+  }
+
+  .card{
+    transform:none !important;
+  }
+
+  .card:hover{
+    transform:translateY(-6px);
+  }
+
+  .logo{
+    font-size:48px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px){
+  header{
+    padding:18px 20px;
+  }
+
+  .logo{
+    font-size:34px;
+  }
+
+  .container{
+    padding:20px;
+    gap:20px;
+  }
+
+  .button{
+    font-size:16px;
+    padding:16px;
+  }
+
+  .card:hover{
+    transform:translateY(-4px);
+  }
+
+  /* disable 3D on touch devices */
+  .card, .product-img{
+    transform:none !important;
+  }
+}
+
+html{
+  scroll-behavior:smooth;
+}
 </style>
 </head>
 
@@ -199,7 +256,7 @@ html{scroll-behavior:smooth;}
   <div class="logo">Wristly</div>
 </header>
 
-<!-- WRISTLY ULTRA SE -->
+<!-- SE -->
 <div class="container">
 
   <div>
@@ -225,17 +282,11 @@ html{scroll-behavior:smooth;}
       <div class="small">06 Mar 2026</div>
     </div>
 
-    <div class="review">
-      <div class="stars">★★★★★</div>
-      Everything is fine, works well.
-      <div class="small">25 Mar 2026</div>
-    </div>
-
   </div>
 
 </div>
 
-<!-- WRISTLY ULTRA CD12 -->
+<!-- CD12 -->
 <div class="container">
 
   <div>
@@ -245,15 +296,13 @@ html{scroll-behavior:smooth;}
 
   <div class="card">
     <h2>Wristly Ultra CD12</h2>
-    <p style="opacity:.8;margin-top:10px;">
-      Full Android smartwatch experience with advanced connectivity.
-    </p>
+    <p style="opacity:.8;margin-top:10px;">Full Android smartwatch experience.</p>
 
     <div class="section-title">Reviews</div>
 
     <div class="review">
       <div class="stars">★★★★★</div>
-      Amazing! works perfectly, SIM and hotspot function both work great.
+      Amazing! SIM works perfectly and hotspot feature is great.
       <div class="small">26 Mar 2026</div>
     </div>
 
@@ -265,20 +314,8 @@ html{scroll-behavior:smooth;}
 
     <div class="review">
       <div class="stars">★★★★☆</div>
-      Delivery took time but device works fine after setup.
+      Delivery took time but works fine after setup.
       <div class="small">25 Apr 2026</div>
-    </div>
-
-    <div class="review">
-      <div class="stars">★★★★★</div>
-      Very well, thank you.
-      <div class="small">27 Mar 2026</div>
-    </div>
-
-    <div class="review">
-      <div class="stars">★★★★★</div>
-      Top merci
-      <div class="small">25 Mar 2026</div>
     </div>
 
   </div>
