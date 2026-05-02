@@ -1,326 +1,363 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wristly</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --green:#98A869;
-  --purple:#8469A8;
-  --bg:#0f0f10;
-  --card:#151517;
-}
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:"Inter", system-ui, sans-serif;
+  --green:#7FBF7A;
+  --bg:#0b0f0c;
+  --card:#141a16;
+  --text:#e9f0ea;
+  --muted:#9fb0a5;
 }
 
 body{
-  background:var(--bg);
-  color:#fff;
-  overflow-x:hidden;
-  animation:pageIn .7s ease;
-}
-
-@keyframes pageIn{
-  from{opacity:0; transform:translateY(10px);}
-  to{opacity:1; transform:translateY(0);}
+  margin:0;
+  font-family:system-ui;
+  background:var(--bg)al;
+  color:var(--text);
 }
 
 /* HEADER */
 header{
-  padding:26px 40px;
-  background:#111;
-  border-bottom:1px solid #222;
-  position:sticky;
-  top:0;
-  z-index:10;
+  padding:5px;
+  text-align:center ;
 }
 
-.logo{
-  font-size:64px;
-  font-weight:800;
-  letter-spacing:2px;
-  transition:.35s ease;
-  display:inline-block;
-}
-
-.logo:hover{
+.brand{
+  font-size:40px;
+  font-weight: 800;
   color:var(--green);
-  transform:translateY(-2px) scale(1.03);
+  text-shadow:0 0 4px rgba(127,191,122,0);
 }
 
-/* LAYOUT */
+/* CONTAINER */
 .container{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:45px;
-  padding:45px;
-  perspective:1600px;
+  max-width:1100px;
+  margin:auto;
+  padding:20px;
 }
 
-/* CARD */
-.card{
+/* PRODUCT CARD */
+.product{
+  display:flex;
+  flex-wrap:wrap;
+  gap:25px;
   background:var(--card);
-  padding:24px;
-  border-radius:2px;
-  transition:transform .45s ease, box-shadow .45s ease;
+  padding:30px;
+  border-radius:16px;
+  margin-bottom:40px;
+
   transform-style:preserve-3d;
+  transition:0.4s ease;
 }
 
-.card:hover{
-  transform:translateY(-8px) rotateX(1deg) rotateY(-1deg);
-  box-shadow:0 20px 55px rgba(0,0,0,0.45);
+.product:hover{
+  transform:perspective(900px) rotateX(2deg) rotateY(-2deg) scale(1.01);
 }
 
 /* IMAGE */
-.product-img{
-  width:80%;
-  border-radius:2px;
-  transition:.45s ease;
+.image-box{
+  flex:1;
+  min-width:260px;
 }
 
-.product-img:hover{
-  transform:scale(1.04) rotateX(0.6deg) rotateY(0.6deg);
-  filter:brightness(1.05);
-}
-
-/* BUTTON */
-.button{
-  margin-top:20px;
+.image-box img{
   width:100%;
-  padding:20px;
-  font-size:18px;
-  font-weight:800;
-  border:none;
+  border-radius:12px;
+}
+
+/* THUMBS */
+.thumb-row{
+  display:flex;
+  gap:8px;
+  margin-top:10px;
+}
+
+.thumb-row img{
+  width:60px;
+  height:60px;
+  border-radius:6px;
   cursor:pointer;
-  background:var(--green);
-  color:#000;
-  border-radius:2px;
-  position:relative;
-  overflow:hidden;
-  transition:transform .25s ease, letter-spacing .25s ease;
-  -webkit-tap-highlight-color:transparent;
+  opacity:0.7;
+  transition:0.2s;
 }
 
-.button:hover{
-  transform:scale(1.04);
-  letter-spacing:1px;
+.thumb-row img:hover{
+  opacity:1;
+  transform:scale(1.05);
 }
 
-.button:active{
-  transform:scale(0.98);
+/* INFO */
+.info{
+  flex:1;
+  min-width:260px;
 }
 
-/* WIPE EFFECT */
-.button::before{
-  content:"";
-  position:absolute;
-  top:0;
-  left:-120%;
-  width:120%;
-  height:100%;
-  background:linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
-  transform:skewX(-20deg);
+h2{
+  margin:0 0 5px;
 }
 
-.button:hover::before{
-  animation:wipe .75s ease;
-}
-
-@keyframes wipe{
-  0%{left:-120%;}
-  100%{left:120%;}
-}
-
-/* DETAILS */
-details{
-  margin-top:14px;
-  background:#1a1a1c;
-  padding:14px;
-  border-radius:2px;
-  transition:.35s ease;
-}
-
-details:hover{
-  transform:translateX(5px);
-  background:#1d1d20;
-}
-
-summary{
-  font-weight:700;
+.price{
+  font-size:22px;
+  font-weight: 1;
   color:var(--green);
-  cursor:pointer;
-}
-
-/* REVIEWS */
-.review{
-  margin-top:12px;
-  padding:12px;
-  background:#121214;
-  border-left:3px solid var(--purple);
-  transition:.3s ease;
-}
-
-.review:hover{
-  transform:translateX(4px);
-  background:#16161a;
-}
-
-.stars{
-  color:#ffd27a;
-  margin-bottom:6px;
-}
-
-.section-title{
-  margin-top:18px;
-  color:var(--green);
-  font-size:20px;
+  margin:8px 0;
 }
 
 .small{
-  opacity:.7;
   font-size:12px;
-  margin-top:6px;
+  color:var(--muted);
+  margin-top:10px;
 }
 
-/* ===== FULL RESPONSIVENESS ===== */
-
-/* Tablet */
-@media (max-width: 1024px){
-  .container{
-    grid-template-columns:1fr;
-    padding:30px;
-    gap:30px;
-  }
-
-  .card{
-    transform:none !important;
-  }
-
-  .card:hover{
-    transform:translateY(-6px);
-  }
-
-  .logo{
-    font-size:48px;
-  }
+/* BUTTONS */
+button{
+  padding:10px 14px;
+  margin:5px 4px;
+  border:none;
+  border-radius:8px;
+  background:#1e2521;
+  color:white;
+  cursor:pointer;
+  transition:0.25s;
 }
 
-/* Mobile */
-@media (max-width: 600px){
-  header{
-    padding:18px 20px;
-  }
-
-  .logo{
-    font-size:34px;
-  }
-
-  .container{
-    padding:20px;
-    gap:20px;
-  }
-
-  .button{
-    font-size:16px;
-    padding:16px;
-  }
-
-  .card:hover{
-    transform:translateY(-4px);
-  }
-
-  /* disable 3D on touch devices */
-  .card, .product-img{
-    transform:none !important;
-  }
+button:hover{
+  background:var(--green);
+  color:black;
+  transform:translateY(-2px);
 }
 
-html{
-  scroll-behavior:smooth;
+/* BUY */
+.buy{
+  width:100%;
+  background:var(--green);
+  color:black;
+  font-weight:bold;
+  margin-top:12px;
+}
+
+/* REVIEWS */
+.reviews{
+  margin-top:16px;
+}
+
+.review-card{
+  background:#1c231f;
+  padding:10px;
+  border-radius:10px;
+  margin-top:10px;
+}
+
+.stars{
+  color:gold;
+}
+
+.review-card p{
+  font-size:13px;
+  margin:6px 0;
+}
+
+.review-card span{
+  font-size:11px;
+  opacity:0.6;
+}
+
+/* MORE BUTTON */
+.more{
+  margin-top:10px;
+  font-size:12px;
+  color:var(--green);
+  cursor:pointer;
+}
+
+.hidden{
+  display:none;
 }
 </style>
 </head>
 
+<!-- ADD THIS RIGHT BEFORE </body> -->
+
+<!-- IMAGE EXPAND VIEWER -->
+<div id="viewer" style="
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.85);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:9999;
+">
+
+  <div id="viewerInner" style="
+  position:relative;
+  perspective:1200px;
+  ">
+
+    <img id="viewerImg" src="" style="
+    max-width:80vw;
+    max-height:80vh;
+    border-radius:12px;
+    transition:transform 0.1s ease;
+    transform-style:preserve-3d;
+    ">
+
+    <button onclick="closeViewer()" style="
+    position:absolute;
+    top:-40px;
+    right:0;
+    background:#7FBF7A;
+    border:none;
+    padding:8px 12px;
+    cursor:pointer;
+    border-radius:6px;
+    ">✕</button>
+
+  </div>
+</div>
+  
 <body>
 
 <header>
-  <div class="logo">Wristly</div>
+  <div class="brand">Wristly</div>
 </header>
 
-<!-- SE -->
 <div class="container">
 
-  <div>
-    <img class="product-img" src="https://ae01.alicdn.com/kf/Sd715d33e4f4542a4bc6b7f37206b8c64o.png"/>
-    <button class="button">Buy Now – Wristly Ultra SE</button>
-  </div>
+<!-- ================= CD12 ================= -->
+<div class="product">
 
-  <div class="card">
-    <h2>Wristly Ultra SE</h2>
-    <p style="opacity:.8;margin-top:10px;">Smooth smartwatch experience built for simplicity.</p>
+<div class="image-box">
+<img id="cd12Main" src="https://ae-pic-a1.aliexpress-media.com/kf/Scd5aac5778da421cb6c39ce9c649fffbu.jpg">
 
-    <div class="section-title">Reviews</div>
+<div class="thumb-row">
+<img src="https://ae-pic-a1.aliexpress-media.com/kf/Sf890f95db20441d191522b7d3e04cf25K.jpg_960x960q75.jpg_.avif" onclick="setImg('cd12Main',this.src)">
+<img src="https://ae-pic-a1.aliexpress-media.com/kf/S7949f7bbfb774ec7823fa5eed4b5f40d3.jpg_960x960q75.jpg_.avif" onclick="setImg('cd12Main',this.src)">
+<img src="https://ae-pic-a1.aliexpress-media.com/kf/S8a6b6fc34e7f4a0d8311a052e7cc6a2fL.jpg_960x960q75.jpg_.avif" onclick="setImg('cd12Main',this.src)">
+<img src="https://ae-pic-a1.aliexpress-media.com/kf/S3280e213a4e84e048163a6c7c650a698k.jpg" onclick="setImg('cd12Main',this.src)">
+</div>
+</div>
 
-    <div class="review">
-      <div class="stars">★★★★★</div>
-      Very good build and smooth performance overall.
-      <div class="small">27 Mar 2026</div>
-    </div>
+<div class="info">
+<h2>Wristly Ultra CD12</h2>
+<div class="price" id="cd12Price">£70.91</div>
+<div class="small">111 sold</div>
 
-    <div class="review">
-      <div class="stars">★★★★★</div>
-      Nice design and works as expected.
-      <div class="small">06 Mar 2026</div>
-    </div>
+<div class="small">Colour</div>
+<button onclick="setImg('cd12Main','https://ae-pic-a1.aliexpress-media.com/kf/Sf890f95db20441d191522b7d3e04cf25K.jpg_960x960q75.jpg_.avif')">Orange</button>
+<button onclick="setImg('cd12Main','https://ae-pic-a1.aliexpress-media.com/kf/S7949f7bbfb774ec7823fa5eed4b5f40d3.jpg_960x960q75.jpg_.avif')">Black</button>
+<button onclick="setImg('cd12Main','https://ae-pic-a1.aliexpress-media.com/kf/S8a6b6fc34e7f4a0d8311a052e7cc6a2fL.jpg_960x960q75.jpg_.avif')">Silver</button>
+<button onclick="setImg('cd12Main','https://ae-pic-a1.aliexpress-media.com/kf/S1c8de10fd64441469df9aa5b0122b297y.jpg_960x960q75.jpg_.avif')">Green</button>
 
-  </div>
+<div class="small">Storage</div>
+<button onclick="setPrice('cd12Price',70.91)">32GB</button>
+<button onclick="setPrice('cd12Price',78.91)">64GB</button>
+<button onclick="setPrice('cd12Price',86.91)">128GB</button>
+<button onclick="setPrice('cd12Price',94.91)">256GB</button>
+<button onclick="setPrice('cd12Price',102.91)">512GB</button>
+
+<button class="buy">Buy Now</button>
+<h3> Verified Purchases <h3>
+<div class="reviews">
+<div class="review-card">
+<div class="stars">★★★★★</div>
+<p>Really like it! Bigger than expected and works great.</p>
+<span>H****c • Apr 2026</span>
+</div>
+
+<div class="review-card">
+<div class="stars">★★★★☆</div>
+<p>Good value. Battery could be better with heavy use.</p>
+<span>V***i • Jan 2026</span>
+</div>
+
+<div class="review-card">
+<div class="stars">★★★★★</div>
+<p>Excellent quality and very responsive fingerprint.</p>
+<span>D***m• Apr 2026</span>
+</div>
+
+<div class="review-card hidden extra-cd12">
+<div class="stars">★★★☆☆</div>
+<p>Battery drains quickly but features are impressive.</p>
+</div>
+
+<div class="more" onclick="toggleReviews('cd12')">More reviews</div>
+</div>
+
+</div>
+</div>
+
+<!-- ================= HYPER SE ================= -->
+<div class="product">
+
+<div class="image-box">
+<img id="hyperMain" src="https://ae-pic-a1.aliexpress-media.com/kf/Sf843c0a1b8014a868f72a182f54172a1Z.jpg">
+</div>
+
+<div class="info">
+<h2>Wristly Hyper SE</h2>
+<div class="price" id="hyperPrice">£61.09</div>
+<div class="small">121 sold</div>
+
+<div class="small">Colour</div>
+<button onclick="setImg('hyperMain','https://ae-pic-a1.aliexpress-media.com/kf/Sf843c0a1b8014a868f72a182f54172a1Z.jpg')">Black</button>
+<button onclick="setImg('hyperMain','https://ae-pic-a1.aliexpress-media.com/kf/Saaa67c3391c540678b86411474cf220dO.jpg')">Silver</button>
+
+<div class="small">Storage</div>
+<button onclick="setPrice('hyperPrice',61.09)">32GB</button>
+<button onclick="setPrice('hyperPrice',69.09)">64GB</button>
+<button onclick="setPrice('hyperPrice',77.09)">128GB</button>
+<button onclick="setPrice('hyperPrice',85.09)">256GB</button>
+
+<button class="buy">Buy Now</button>
+<h3> Verified Purchases <h3>
+<div class="reviews">
+<div class="review-card">
+<div class="stars">★★★★★</div>
+<p>Great build quality and smooth performance.</p>
+<span>m***a • Dec 2025</span>
+</div>
+
+<div class="review-card">
+<div class="stars">★★★★☆</div>
+<p>Nice display, works well over WiFi.</p>
+<span>A*****2 • Nov 2025</span>
+</div>
+
+<div class="review-card hidden extra-hyper">
+<div class="stars">★★★★☆</div>
+<p>Very good for the price, exceeded expectations.</p>
+</div>
+
+<div class="more" onclick="toggleReviews('hyper')">More reviews</div>
+</div>
+
+</div>
+</div>
 
 </div>
 
-<!-- CD12 -->
-<div class="container">
+<script>
+function setImg(id,src){
+  document.getElementById(id).src=src;
+}
 
-  <div>
-    <img class="product-img" src="https://i.postimg.cc/Jn24zxjm/image.png"/>
-    <button class="button">Buy Now – Wristly Ultra CD12</button>
-  </div>
+function setPrice(id,price){
+  document.getElementById(id).innerText="£"+price.toFixed(2);
+}
 
-  <div class="card">
-    <h2>Wristly Ultra CD12</h2>
-    <p style="opacity:.8;margin-top:10px;">Full Android smartwatch experience.</p>
-
-    <div class="section-title">Reviews</div>
-
-    <div class="review">
-      <div class="stars">★★★★★</div>
-      Amazing! SIM works perfectly and hotspot feature is great.
-      <div class="small">26 Mar 2026</div>
-    </div>
-
-    <div class="review">
-      <div class="stars">★★★★☆</div>
-      Works well for the price.
-      <div class="small">13 Feb 2026</div>
-    </div>
-
-    <div class="review">
-      <div class="stars">★★★★☆</div>
-      Delivery took time but works fine after setup.
-      <div class="small">25 Apr 2026</div>
-    </div>
-
-  </div>
-
-</div>
+function toggleReviews(type){
+  document.querySelectorAll(".extra-"+type).forEach(e=>{
+    e.classList.toggle("hidden");
+  });
+}
+</script>
 
 </body>
 </html>
