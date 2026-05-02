@@ -6,6 +6,38 @@
 <title>Wristly</title>
 
 <style>
+/* LIGHT REFLECTION LAYER */
+#viewerInner::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  border-radius:12px;
+
+  background: linear-gradient(
+    120deg,
+    transparent 35%,
+    rgba(255,255,255,0.18) 45%,
+    rgba(255,255,255,0.08) 50%,
+    transparent 60%
+  );
+
+  transform: translateX(-120%) rotate(0deg);
+  mix-blend-mode: overlay;
+  opacity:0;
+}
+
+/* when active */
+#viewer.active #viewerInner::after{
+  opacity:1;
+  animation: sheen 2.8s ease forwards;
+}
+
+@keyframes sheen{
+  0% { transform: translateX(-120%) }
+  100% { transform: translateX(120%) }
+}
+  
 :root{
   --green:#7FBF7A;
   --bg:#0b0f0c;
