@@ -345,51 +345,165 @@ z-index:9999;
 
 <script>
 function setImg(id, src) {
-  document.getElementById(id).src = src;
+  const img = document.getElementById(id);
+
+  // smooth swap effect
+  img.style.opacity = 0;
+  img.style.transform = "scale(0.98)";
+
+  setTimeout(() => {
+    img.src = src;
+    img.style.opacity = 1;
+    img.style.transform = "scale(1)";
+  }, 120);
 }
 
 function setPrice(id, price) {
-  document.getElementById(id).innerText = "£" + price.toFixed(2);
+  const el = document.getElementById(id);
+
+  el.style.transform = "scale(1.1)";
+  el.style.opacity = 0.5;
+
+  setTimeout(() => {
+    el.innerText = "£" + price.toFixed(2);
+    el.style.transform = "scale(1)";
+    el.style.opacity = 1;
+  }, 120);
 }
 
 function toggleReviews(type) {
   document.querySelectorAll(".extra-" + type).forEach(e => {
     e.classList.toggle("hidden");
+
+    // micro animation per review card
+    if (!e.classList.contains("hidden")) {
+      e.style.opacity = 0;
+      e.style.transform = "translateY(10px)";
+      setTimeout(() => {
+        e.style.transition = "0.4s ease";
+        e.style.opacity = 1;
+        e.style.transform = "translateY(0)";
+      }, 50);
+    }
   });
 }
 
-// IMAGE VIEWER LOGIC
+/* =========================
+   IMAGE VIEWER (UPGRADED)
+========================= */
+
 const viewer = document.getElementById('viewer');
 const viewerImg = document.getElementById('viewerImg');
+
+let scale = 1;
+let targetScale = 1;
+
+let mouseX = 0.5;
+let mouseY = 0.5;
+
+let rotX = 0;
+let rotY = 0;
+
+let targetRotX = 0;
+let targetRotY = 0;
+
+let active = false;
+let animFrame = null;
 
 function openViewer(src) {
   viewerImg.src = src;
   viewer.style.display = 'flex';
+
+  // reset state
+  scale = 1;
+  targetScale = 1;
+  rotX = rotY = 0;
+  targetRotX = targetRotY = 0;
+
+  viewerImg.style.transition = "transform 0.35s cubic-bezier(.2,.8,.2,1)";
+  viewerImg.style.transform = "scale(0.6) rotateX(10deg) rotateY(-10deg)";
+  viewerImg.style.opacity = "0";
+
+  // smooth entrance
+  setTimeout(() => {
+    viewerImg.style.opacity = "1";
+  }, 50);
+
+  setTimeout(() => {
+    viewerImg.style.transition = "none";
+  }, 400);
+
+  active = true;
+  document.body.style.overflow = "hidden";
+
+  animate3D();
 }
 
 function closeViewer() {
-  viewer.style.display = 'none';
-  viewerImg.style.transform = 'scale(1)';
+  active = false;
+  document.body.style.overflow = "auto";
+
+  viewerImg.style.transition = "0.35s ease";
+  viewerImg.style.transform = "scale(0.6) rotateX(0deg) rotateY(0deg)";
+  viewer.style.opacity = "0";
+
+  setTimeout(() => {
+    viewer.style.display = 'none';
+    viewer.style.opacity = "1";
+  }, 250);
+
+  if (animFrame) cancelAnimationFrame(animFrame);
 }
 
-// Zoom in/out with mouse wheel
-viewerImg.addEventListener('wheel', function(e) {
-  e.preventDefault();
-  const scale = Number(viewerImg.dataset.scale || 1);
-  let newScale = scale + (e.deltaY < 0 ? 0.1 : -0.1);
-  newScale = Math.min(Math.max(newScale, 0.5), 3); // Limit zoom range
-  viewerImg.dataset.scale = newScale;
-  viewerImg.style.transform = `scale(${newScale})`;
+/* =========================
+   SMOOTH 3D LOOP
+========================= */
+
+function animate3D() {
+  if (!active) return;
+
+  // smooth follow mouse
+  targetRotX += ((mouseY - 0.5) * -35 - targetRotX) * 0.08;
+  targetRotY += ((mouseX - 0.5) * 35 - targetRotY) * 0.08;
+
+  rotX += (targetRotX - rotX) * 0.12;
+  rotY += (targetRotY - rotY) * 0.12;
+
+  // smooth zoom
+  scale += (targetScale - scale) * 0.12;
+
+  viewerImg.style.transform =
+    `scale(${scale}) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+
+  animFrame = requestAnimationFrame(animate3D);
+}
+
+/* =========================
+   EVENTS
+========================= */
+
+viewer.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX / window.innerWidth;
+  mouseY = e.clientY / window.innerHeight;
 });
 
-// Click anywhere except image to close
+// smooth zoom
+viewerImg.addEventListener('wheel', function(e) {
+  e.preventDefault();
+
+  targetScale += (e.deltaY < 0 ? 0.15 : -0.15);
+  targetScale = Math.min(Math.max(targetScale, 0.5), 3);
+});
+
+// click background closes
 viewer.addEventListener('click', function(e) {
   if (e.target === viewer) closeViewer();
 });
 
-// Attach click to all product images and thumbnails
+// attach to images
 document.querySelectorAll('.image-box img, .thumb-row img').forEach(img => {
   img.style.cursor = 'zoom-in';
+
   img.addEventListener('click', (e) => {
     e.stopPropagation();
     openViewer(img.src);
