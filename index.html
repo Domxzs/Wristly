@@ -344,20 +344,59 @@ z-index:9999;
 </div>
 
 <script>
-function setImg(id,src){
-  document.getElementById(id).src=src;
+function setImg(id, src) {
+  document.getElementById(id).src = src;
 }
 
-function setPrice(id,price){
-  document.getElementById(id).innerText="£"+price.toFixed(2);
+function setPrice(id, price) {
+  document.getElementById(id).innerText = "£" + price.toFixed(2);
 }
 
-function toggleReviews(type){
-  document.querySelectorAll(".extra-"+type).forEach(e=>{
+function toggleReviews(type) {
+  document.querySelectorAll(".extra-" + type).forEach(e => {
     e.classList.toggle("hidden");
   });
 }
+
+// IMAGE VIEWER LOGIC
+const viewer = document.getElementById('viewer');
+const viewerImg = document.getElementById('viewerImg');
+
+function openViewer(src) {
+  viewerImg.src = src;
+  viewer.style.display = 'flex';
+}
+
+function closeViewer() {
+  viewer.style.display = 'none';
+  viewerImg.style.transform = 'scale(1)';
+}
+
+// Zoom in/out with mouse wheel
+viewerImg.addEventListener('wheel', function(e) {
+  e.preventDefault();
+  const scale = Number(viewerImg.dataset.scale || 1);
+  let newScale = scale + (e.deltaY < 0 ? 0.1 : -0.1);
+  newScale = Math.min(Math.max(newScale, 0.5), 3); // Limit zoom range
+  viewerImg.dataset.scale = newScale;
+  viewerImg.style.transform = `scale(${newScale})`;
+});
+
+// Click anywhere except image to close
+viewer.addEventListener('click', function(e) {
+  if (e.target === viewer) closeViewer();
+});
+
+// Attach click to all product images and thumbnails
+document.querySelectorAll('.image-box img, .thumb-row img').forEach(img => {
+  img.style.cursor = 'zoom-in';
+  img.addEventListener('click', (e) => {
+    e.stopPropagation();
+    openViewer(img.src);
+  });
+});
 </script>
+
 
 </body>
 </html>
