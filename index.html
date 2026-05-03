@@ -425,156 +425,221 @@ button#closeBtn:hover {
 </div>
 
 <script>
-// Basic image swap with smooth transition
-function setImg(id, src) {
-  const img = document.getElementById(id);
+/* =========================
+   UI UTILITIES
+========================= */
+
+function setImg(elementId, src) {
+  const img = document.getElementById(elementId);
+
   img.style.transition = "opacity 0.4s ease, transform 0.4s ease";
-  img.style.opacity = 0;
+  img.style.opacity = "0";
   img.style.transform = "scale(0.98)";
+
   setTimeout(() => {
     img.src = src;
-    img.style.opacity = 1;
+    img.style.opacity = "1";
     img.style.transform = "scale(1)";
-  }, 200);
+  }, 180);
 }
 
-// Price update with fluid effect
-function setPrice(id, price) {
-  const el = document.getElementById(id);
+function setPrice(elementId, price) {
+  const el = document.getElementById(elementId);
+
   el.style.transition = "transform 0.3s ease, opacity 0.3s ease";
-  el.style.transform = "scale(1.2)";
-  el.style.opacity = 0.5;
+  el.style.transform = "scale(1.15)";
+  el.style.opacity = "0.5";
+
   setTimeout(() => {
     el.innerText = "£" + price.toFixed(2);
     el.style.transform = "scale(1)";
-    el.style.opacity = 1;
-  }, 200);
+    el.style.opacity = "1";
+  }, 180);
 }
 
-// Toggle reviews with smooth slide and fade
 function toggleReviews(type) {
-  document.querySelectorAll(".extra-" + type).forEach(e => {
-    e.classList.toggle("hidden");
-    if (!e.classList.contains("hidden")) {
-      e.style.opacity = 0;
-      e.style.transform = "translateY(10px)";
+  const items = document.querySelectorAll(".extra-" + type);
+
+  items.forEach(item => {
+    const isHidden = item.classList.toggle("hidden");
+
+    if (!isHidden) {
+      item.style.opacity = "0";
+      item.style.transform = "translateY(10px)";
+
       setTimeout(() => {
-        e.style.transition = "opacity 0.4s ease, transform 0.4s ease";
-        e.style.opacity = 1;
-        e.style.transform = "translateY(0)";
+        item.style.transition = "opacity 0.4s ease, transform 0.4s ease";
+        item.style.opacity = "1";
+        item.style.transform = "translateY(0)";
       }, 50);
     }
   });
 }
 
-// ==================== Image Viewer with Liquid Effects ====================
+/* =========================
+   IMAGE VIEWER SYSTEM
+========================= */
+
 const viewer = document.getElementById("viewer");
-const viewerImg = document.getElementById("viewerImg");
+const viewerImage = document.getElementById("viewerImg");
+
+let isViewerActive = false;
+let animationFrameId = null;
+
+/* Interaction state */
 let scale = 1;
 let targetScale = 1;
-let rotX = 0;
-let rotY = 0;
-let targetRotX = 0;
-let targetRotY = 0;
-let active = false;
-let animFrame = null;
 
-function openViewer(src) {
+let rotationX = 0;
+let rotationY = 0;
+let targetRotationX = 0;
+let targetRotationY = 0;
+
+let pointerX = 0.5;
+let pointerY = 0.5;
+
+/* Open viewer */
+function openViewer(source) {
   viewer.style.display = "flex";
   viewer.classList.add("active");
-  viewerImg.src = src;
-  // Reset states
-  scale = 1;
-  targetScale = 1;
-  rotX = rotY = 0;
-  targetRotX = targetRotY = 0;
-  viewerImg.style.transition = "transform 0.35s cubic-bezier(.2,.8,.2,1), opacity 0.3s ease";
-  viewerImg.style.transform = "scale(0.6) rotateX(10deg) rotateY(-10deg)";
-  viewerImg.style.opacity = 0;
+
+  viewerImage.src = source;
+
+  /* reset state */
+  scale = targetScale = 1;
+  rotationX = rotationY = 0;
+  targetRotationX = targetRotationY = 0;
+
+  viewerImage.style.transition =
+    "transform 0.35s cubic-bezier(.2,.8,.2,1), opacity 0.3s ease";
+
+  viewerImage.style.transform =
+    "scale(0.6) rotateX(10deg) rotateY(-10deg)";
+
+  viewerImage.style.opacity = "0";
+
   setTimeout(() => {
-    viewerImg.style.opacity = 1;
+    viewerImage.style.opacity = "1";
   }, 50);
-  active = true;
+
+  isViewerActive = true;
   document.body.style.overflow = "hidden";
-  animate3D();
+
+  runViewerAnimation();
 }
 
+/* Close viewer */
 function closeViewer() {
-  active = false;
+  isViewerActive = false;
   document.body.style.overflow = "";
+
   viewer.style.transition = "opacity 0.3s ease";
-  viewer.style.opacity = 0;
+  viewer.style.opacity = "0";
+
   viewer.classList.remove("active");
-  viewerImg.style.transform = "scale(0.6) rotateX(0deg) rotateY(0deg)";
+
+  viewerImage.style.transform =
+    "scale(0.6) rotateX(0deg) rotateY(0deg)";
+
   setTimeout(() => {
     viewer.style.display = "none";
-    viewer.style.opacity = 1;
+    viewer.style.opacity = "1";
   }, 300);
-  if (animFrame) cancelAnimationFrame(animFrame);
+
+  if (animationFrameId) cancelAnimationFrame(animationFrameId);
 }
 
-// Animate 3D rotation and zoom with liquid smoothness
-function animate3D() {
-  if (!active) return;
-  targetRotX += ((mouseY - 0.5) * -35 - targetRotX) * 0.08;
-  targetRotY += ((mouseX - 0.5) * 35 - targetRotY) * 0.08;
-  rotX += (targetRotX - rotX) * 0.12;
-  rotY += (targetRotY - rotY) * 0.12;
+/* =========================
+   ANIMATION LOOP (3D ENGINE)
+========================= */
+
+function runViewerAnimation() {
+  if (!isViewerActive) return;
+
+  /* smooth rotation interpolation */
+  targetRotationX += ((pointerY - 0.5) * -35 - targetRotationX) * 0.08;
+  targetRotationY += ((pointerX - 0.5) * 35 - targetRotationY) * 0.08;
+
+  rotationX += (targetRotationX - rotationX) * 0.12;
+  rotationY += (targetRotationY - rotationY) * 0.12;
+
+  /* smooth zoom interpolation */
   scale += (targetScale - scale) * 0.12;
-  viewerImg.style.transform =
-    `scale(${scale}) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
-  animFrame = requestAnimationFrame(animate3D);
+
+  viewerImage.style.transform =
+    `scale(${scale}) rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
+
+  animationFrameId = requestAnimationFrame(runViewerAnimation);
 }
 
-// Mouse movement for rotation effect
-viewer.addEventListener("mousemove", (e) => {
-  mouseX = e.clientX / window.innerWidth;
-  mouseY = e.clientY / window.innerHeight;
+/* =========================
+   INPUT HANDLING
+========================= */
+
+/* Pointer tracking */
+viewer.addEventListener("mousemove", (event) => {
+  pointerX = event.clientX / window.innerWidth;
+  pointerY = event.clientY / window.innerHeight;
 });
 
-// Wheel zoom with smooth effect
-viewerImg.addEventListener("wheel", (e) => {
-  e.preventDefault();
-  targetScale += e.deltaY * -0.02;
+/* Zoom control */
+viewerImage.addEventListener("wheel", (event) => {
+  event.preventDefault();
+
+  targetScale += event.deltaY * -0.02;
   targetScale = Math.min(Math.max(targetScale, 0.5), 3);
 });
 
-// Background click to close
-viewer.addEventListener("click", (e) => {
-  if (e.target === viewer) closeViewer();
+/* Close on background click */
+viewer.addEventListener("click", (event) => {
+  if (event.target === viewer) closeViewer();
 });
 
-// Attach click to images
-document.querySelectorAll(".image-box img, .thumb-row img").forEach((img) => {
-  img.style.cursor = "zoom-in";
-  img.addEventListener("click", () => {
-    openViewer(img.src);
+/* =========================
+   IMAGE BINDING
+========================= */
+
+document
+  .querySelectorAll(".image-box img, .thumb-row img")
+  .forEach((img) => {
+    img.style.cursor = "zoom-in";
+
+    img.addEventListener("click", () => {
+      openViewer(img.src);
+    });
   });
+
+/* =========================
+   OPTIONAL DRAG ROTATION
+========================= */
+
+let dragging = false;
+let lastPointerX = 0;
+let lastPointerY = 0;
+
+viewerImage.addEventListener("mousedown", (event) => {
+  dragging = true;
+  lastPointerX = event.clientX;
+  lastPointerY = event.clientY;
+  viewerImage.style.cursor = "grabbing";
 });
 
-// Optional: Add drag to rotate the image
-let isDragging = false;
-let lastX = 0;
-let lastY = 0;
-viewerImg.addEventListener("mousedown", (e) => {
-  isDragging = true;
-  lastX = e.clientX;
-  lastY = e.clientY;
-  viewerImg.style.cursor = "grabbing";
-});
 document.addEventListener("mouseup", () => {
-  isDragging = false;
-  viewerImg.style.cursor = "grab";
+  dragging = false;
+  viewerImage.style.cursor = "grab";
 });
-document.addEventListener("mousemove", (e) => {
-  if (isDragging) {
-    const deltaX = e.clientX - lastX;
-    const deltaY = e.clientY - lastY;
-    targetRotY += deltaX * 0.3;
-    targetRotX -= deltaY * 0.3;
-    lastX = e.clientX;
-    lastY = e.clientY;
-  }
+
+document.addEventListener("mousemove", (event) => {
+  if (!dragging) return;
+
+  const deltaX = event.clientX - lastPointerX;
+  const deltaY = event.clientY - lastPointerY;
+
+  targetRotationY += deltaX * 0.3;
+  targetRotationX -= deltaY * 0.3;
+
+  lastPointerX = event.clientX;
+  lastPointerY = event.clientY;
 });
 </script>
 </body>
