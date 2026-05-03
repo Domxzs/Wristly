@@ -550,29 +550,6 @@ function closeViewer() {
 }
 
 /* =========================
-   ANIMATION LOOP (3D ENGINE)
-========================= */
-
-function runViewerAnimation() {
-  if (!isViewerActive) return;
-
-  /* smooth rotation interpolation */
-  targetRotationX += ((pointerY - 0.5) * -35 - targetRotationX) * 0.08;
-  targetRotationY += ((pointerX - 0.5) * 35 - targetRotationY) * 0.08;
-
-  rotationX += (targetRotationX - rotationX) * 0.12;
-  rotationY += (targetRotationY - rotationY) * 0.12;
-
-  /* smooth zoom interpolation */
-  scale += (targetScale - scale) * 0.12;
-
-  viewerImage.style.transform =
-    `scale(${scale}) rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
-
-  animationFrameId = requestAnimationFrame(runViewerAnimation);
-}
-
-/* =========================
    INPUT HANDLING
 ========================= */
 
