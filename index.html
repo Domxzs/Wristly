@@ -1,623 +1,516 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wristly</title>
+
 <style>
-/* Light Reflection Layer */
-#viewerInner::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  border-radius: 12px;
-  background: linear-gradient(
-    120deg,
-    transparent 35%,
-    rgba(255, 255, 255, 0.18) 45%,
-    rgba(255, 255, 255, 0.08) 50%,
-    transparent 60%
-  );
-  transform: translateX(-120%) rotate(0deg);
-  mix-blend-mode: overlay;
-  opacity: 0;
-  transition: opacity 1s ease, transform 2.8s ease;
-}
-#viewer.active #viewerInner::after {
-  opacity: 1;
-  animation: sheen 2.8s ease forwards;
-}
-@keyframes sheen {
-  0% { transform: translateX(-120%) }
-  100% { transform: translateX(120%) }
+:root{
+  --green:#7FBF7A;
+  --bg:#0b0f0c;
+  --card:#141a16;
+  --text:#e9f0ea;
+  --muted:#9fb0a5;
 }
 
-/* Root variables */
-:root {
-  --green: #7FBF7A;
-  --bg: #0b0f0c;
-  --card: #141a16;
-  --text: #e9f0ea;
-  --muted: #9fb0a5;
+body{
+  margin:0;
+  font-family:system-ui;
+  background:var(--bg)al;
+  color:var(--text);
 }
 
-/* Body styles */
-body {
-  margin: 0;
-  font-family: system-ui;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.4;
-  overflow-x: hidden;
-  animation: floatBody 6s ease-in-out infinite alternate;
+/* HEADER */
+header{
+  padding:5px;
+  text-align:center ;
 }
 
-/* Floating body animation for fluidity */
-@keyframes floatBody {
-  0% { transform: translateY(0) }
-  100% { transform: translateY(2px) }
-}
-
-/* Header styles */
-header {
-  padding: 5px;
-  text-align: center;
-  animation: fadeIn 1s ease;
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.brand {
-  font-size: 40px;
+.brand{
+  font-size:40px;
   font-weight: 800;
-  color: var(--green);
-  text-shadow: 0 0 4px rgba(127, 191, 122, 0.5);
-  letter-spacing: 2px;
-  animation: pulse 3s infinite;
-}
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.02); }
+  color:var(--green);
+  text-shadow:0 0 4px rgba(127,191,122,0);
 }
 
-/* Container styles */
-.container {
-  max-width: 1100px;
-  margin: auto;
-  padding: 20px;
+/* CONTAINER */
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:20px;
 }
 
-/* Product card with animated hover */
-.product {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 25px;
-  background: var(--card);
-  padding: 30px;
-  border-radius: 16px;
-  margin-bottom: 40px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-  transition: all 0.6s cubic-bezier(.4,0,.2,1);
-  transform: perspective(1200px) translateY(0);
-}
-.product:hover {
-  transform: perspective(1200px) rotateY(10deg) scale(1.03);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-  cursor: pointer;
-  animation: liquidHover 1s infinite alternate ease-in-out;
-}
-@keyframes liquidHover {
-  0% { transform: perspective(1200px) rotateY(8deg) scale(1.03); }
-  100% { transform: perspective(1200px) rotateY(-8deg) scale(1.03); }
+/* PRODUCT CARD */
+.product{
+  display:flex;
+  flex-wrap:wrap;
+  gap:25px;
+  background:var(--card);
+  padding:30px;
+  border-radius:16px;
+  margin-bottom:40px;
+
+  transform-style:preserve-3d;
+  transition:0.4s ease;
 }
 
-/* Image box with glow and floating effect */
-.image-box {
-  flex: 1;
-  min-width: 260px;
-  position: relative;
-  animation: floatImage 4s ease-in-out infinite;
-}
-@keyframes floatImage {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
-  100% { transform: translateY(0); }
-}
-.image-box img {
-  width: 100%;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  transition: transform 0.4s cubic-bezier(.4,0,.2,1),
-              box-shadow 0.4s;
-}
-.image-box img:hover {
-  transform: scale(1.02);
-  box-shadow: 0 8px 20px rgba(127, 191, 122, 0.7);
+.product:hover{
+  transform:perspective(900px) rotateX(0deg) rotateY(0deg) scale(1.03);
 }
 
-/* Thumbnails with animated hover */
-.thumb-row {
-  display: flex;
-  gap: 8px;
-  margin-top: 10px;
-}
-.thumb-row img {
-  width: 60px;
-  height: 60px;
-  border-radius: 6px;
-  cursor: pointer;
-  opacity: 0.7;
-  transition: all 0.3s ease, transform 0.3s ease;
-}
-.thumb-row img:hover {
-  opacity: 1;
-  transform: scale(1.1);
-  box-shadow: 0 0 8px var(--green);
+/* IMAGE */
+.image-box{
+  flex:1;
+  min-width:260px;
 }
 
-/* Info section */
-.info {
-  flex: 1;
-  min-width: 260px;
-}
-h2 {
-  margin: 0 0 5px;
-  font-size: 24px;
-  animation: fadeInUp 1s ease;
-}
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.price {
-  font-size: 22px;
-  font-weight: 600;
-  color: var(--green);
-  margin: 8px 0;
-  transition: all 0.4s ease;
-}
-.small {
-  font-size: 12px;
-  color: var(--muted);
-  margin-top: 10px;
-  opacity: 0.7;
-  transition: opacity 0.3s;
+.image-box img{
+  width:100%;
+  border-radius:12px;
 }
 
-/* Buttons with fluid hover effects */
-button {
-  padding: 10px 14px;
-  margin: 5px 4px;
-  border: none;
-  border-radius: 8px;
-  background: #1e2521;
-  color: white;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 14px;
-  transition: all 0.3s cubic-bezier(.4,0,.2,1);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
-button:hover {
-  background: var(--green);
-  color: black;
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+/* THUMBS */
+.thumb-row{
+  display:flex;
+  gap:8px;
+  margin-top:10px;
 }
 
-/* Buy Button */
-.buy {
-  width: 100%;
-  background: var(--green);
-  color: black;
-  font-weight: bold;
-  margin-top: 12px;
-  font-size: 16px;
-  letter-spacing: 1px;
-  transition: all 0.4s ease;
-}
-.buy:hover {
-  background: #a5dca5;
-  transform: scale(1.02);
+.thumb-row img{
+  width:60px;
+  height:60px;
+  border-radius:6px;
+  cursor:pointer;
+  opacity:0.7;
+  transition:0.2s;
 }
 
-/* Reviews with animation */
-.reviews {
-  margin-top: 16px;
-  animation: fadeIn 1s ease;
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.review-card {
-  background: #1c231f;
-  padding: 10px;
-  border-radius: 10px;
-  margin-top: 10px;
-  opacity: 0;
-  transform: translateY(10px);
-  animation: slideUp 0.5s forwards;
-}
-@keyframes slideUp {
-  to { opacity: 1; transform: translateY(0); }
-}
-.stars {
-  color: gold;
-  font-size: 14px;
-}
-.review-card p {
-  font-size: 13px;
-  margin: 6px 0;
-}
-.review-card span {
-  font-size: 11px;
-  opacity: 0.6;
+.thumb-row img:hover{
+  opacity:1;
+  transform:scale(1.05);
 }
 
-/* More reviews button with pulse effect */
-.more {
-  margin-top: 10px;
-  font-size: 12px;
-  color: var(--green);
-  cursor: pointer;
-  animation: pulse 2s infinite;
-}
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.6; }
-}
-.hidden {
-  display: none;
+/* INFO */
+.info{
+  flex:1;
+  min-width:260px;
 }
 
-/* Image Viewer with fluid entrance and hover effects */
-#viewer {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.85);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  backdrop-filter: blur(4px);
-}
-#viewerInner {
-  position: relative;
-  perspective: 1200px;
-}
-#viewerImg {
-  max-width: 80vw;
-  max-height: 80vh;
-  border-radius: 12px;
-  transition: transform 0.4s cubic-bezier(.3,.7,.4,1), filter 0.4s ease;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-  cursor: grab;
-}
-#viewerImg:hover {
-  filter: brightness(1.05);
-  box-shadow: 0 12px 24px rgba(0,0,0,0.5);
-}
-button#closeBtn {
-  position: absolute;
-  top: -40px;
-  right: 0;
-  background: #7FBF7A;
-  border: none;
-  padding: 8px 12px;
-  cursor: pointer;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: bold;
-  transition: background 0.3s;
-}
-button#closeBtn:hover {
-  background: #9fcf8a;
+h2{
+  margin:0 0 5px;
 }
 
-/* Additional floating and dynamic effects for more fluidity can be added as needed */
+.price{
+  font-size:22px;
+  font-weight: 1;
+  color:var(--green);
+  margin:8px 0;
+}
+
+.small{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:10px;
+}
+
+/* BUTTONS */
+button{
+  padding:10px 14px;
+  margin:5px 4px;
+  border:none;
+  border-radius:8px;
+  background:#1e2521;
+  color:white;
+  cursor:pointer;
+  transition:0.25s;
+}
+
+button:hover{
+  background:var(--green);
+  color:black;
+  transform:translateY(-2px);
+}
+
+/* BUY */
+.buy{
+  width:100%;
+  background:var(--green);
+  color:black;
+  font-weight:bold;
+  margin-top:12px;
+}
+
+/* REVIEWS */
+.reviews{
+  margin-top:16px;
+}
+
+.review-card{
+  background:#1c231f;
+  padding:10px;
+  border-radius:10px;
+  margin-top:10px;
+}
+
+.stars{
+  color:gold;
+}
+
+.review-card p{
+  font-size:13px;
+  margin:6px 0;
+}
+
+.review-card span{
+  font-size:11px;
+  opacity:0.6;
+}
+
+/* MORE BUTTON */
+.more{
+  margin-top:10px;
+  font-size:12px;
+  color:var(--green);
+  cursor:pointer;
+}
+
+.hidden{
+  display:none;
+}
 </style>
 </head>
-<!-- Image Viewer -->
-<div id="viewer">
-  <div id="viewerInner">
-    <img id="viewerImg" src="" />
-    <button id="closeBtn" onclick="closeViewer()">✕</button>
+
+<!-- ADD THIS RIGHT BEFORE </body> -->
+
+<!-- IMAGE EXPAND VIEWER -->
+<div id="viewer" style="
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.85);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:9999;
+">
+
+  <div id="viewerInner" style="
+  position:relative;
+  perspective:1200px;
+  ">
+
+    <img id="viewerImg" src="" style="
+    max-width:80vw;
+    max-height:80vh;
+    border-radius:12px;
+    transition:transform 0.1s ease;
+    transform-style:preserve-3d;
+    ">
+
+    <button onclick="closeViewer()" style="
+    position:absolute;
+    top:-40px;
+    right:0;
+    background:#7FBF7A;
+    border:none;
+    padding:8px 12px;
+    cursor:pointer;
+    border-radius:6px;
+    ">✕</button>
+
   </div>
 </div>
+  
 <body>
+
 <header>
   <div class="brand">Wristly</div>
 </header>
+
 <div class="container">
-  <!-- Product 1 -->
-  <div class="product">
-    <div class="image-box">
-      <img id="cd12Main" src="https://ae-pic-a1.aliexpress-media.com/kf/Scd5aac5778da421cb6c39ce9c649fffbu.jpg" />
-      <div class="thumb-row">
-        <img src="https://ae-pic-a1.aliexpress-media.com/kf/Sf890f95db20441d191522b7d3e04cf25K.jpg" onclick="setImg('cd12Main', this.src)">
-        <img src="https://ae-pic-a1.aliexpress-media.com/kf/S7949f7bbfb774ec7823fa5eed4b5f40d3.jpg" onclick="setImg('cd12Main', this.src)">
-        <img src="https://ae-pic-a1.aliexpress-media.com/kf/S8a6b6fc34e7f4a0d8311a052e7cc6a2fL.jpg" onclick="setImg('cd12Main', this.src)">
-        <img src="https://ae-pic-a1.aliexpress-media.com/kf/S3280e213a4e84e048163a6c7c650a698k.jpg" onclick="setImg('cd12Main', this.src)">
-      </div>
-    </div>
-    <div class="info">
-      <h2>Wristly Ultra CD12</h2>
-      <div class="price" id="cd12Price">£70.91</div>
-      <div class="small">111 sold</div>
-      <div class="small">Colour</div>
-      <button onclick="setImg('cd12Main','https://ae-pic-a1.aliexpress-media.com/kf/Sf890f95db20441d191522b7d3e04cf25K.jpg')">Orange</button>
-      <button onclick="setImg('cd12Main','https://ae-pic-a1.aliexpress-media.com/kf/S7949f7bbfb774ec7823fa5eed4b5f40d3.jpg')">Black</button>
-      <button onclick="setImg('cd12Main','https://ae-pic-a1.aliexpress-media.com/kf/S8a6b6fc34e7f4a0d8311a052e7cc6a2fL.jpg')">Silver</button>
-      <button onclick="setImg('cd12Main','https://ae-pic-a1.aliexpress-media.com/kf/S1c8de10fd64441469df9aa5b0122b297y.jpg')">Green</button>
-      <div class="small">Storage</div>
-      <button onclick="setPrice('cd12Price',70.91)">32GB</button>
-      <button onclick="setPrice('cd12Price',78.91)">64GB</button>
-      <button onclick="setPrice('cd12Price',86.91)">128GB</button>
-      <button onclick="setPrice('cd12Price',94.91)">256GB</button>
-      <button onclick="setPrice('cd12Price',102.91)">512GB</button>
-      <button class="buy">Buy Now</button>
-      <h3>Verified Purchases</h3>
-      <div class="reviews">
-        <div class="review-card">
-          <div class="stars">★★★★★</div>
-          <p>Really like it! Bigger than expected and works great.</p>
-          <span>H****c • Apr 2026</span>
-        </div>
-        <div class="review-card">
-          <div class="stars">★★★★☆</div>
-          <p>Good value. Battery could be better with heavy use.</p>
-          <span>V***i • Jan 2026</span>
-        </div>
-        <div class="review-card">
-          <div class="stars">★★★★★</div>
-          <p>Excellent quality and very responsive fingerprint.</p>
-          <span>D***m • Apr 2026</span>
-        </div>
-        <div class="review-card hidden extra-cd12">
-          <div class="stars">★★★☆☆</div>
-          <p>Battery drains quickly but features are impressive.</p>
-        </div>
-        <div class="more" onclick="toggleReviews('cd12')">More reviews</div>
-      </div>
-    </div>
-  </div>
-  <!-- Product 2 -->
-  <div class="product">
-    <div class="image-box">
-      <img id="hyperMain" src="https://ae-pic-a1.aliexpress-media.com/kf/Sf843c0a1b8014a868f72a182f54172a1Z.jpg" />
-    </div>
-    <div class="info">
-      <h2>Wristly Hyper SE</h2>
-      <div class="price" id="hyperPrice">£61.09</div>
-      <div class="small">121 sold</div>
-      <div class="small">Colour</div>
-      <button onclick="setImg('hyperMain','https://ae-pic-a1.aliexpress-media.com/kf/Sf843c0a1b8014a868f72a182f54172a1Z.jpg')">Black</button>
-      <button onclick="setImg('hyperMain','https://ae-pic-a1.aliexpress-media.com/kf/Saaa67c3391c540678b86411474cf220dO.jpg')">Silver</button>
-      <div class="small">Storage</div>
-      <button onclick="setPrice('hyperPrice',61.09)">32GB</button>
-      <button onclick="setPrice('hyperPrice',69.09)">64GB</button>
-      <button onclick="setPrice('hyperPrice',77.09)">128GB</button>
-      <button onclick="setPrice('hyperPrice',85.09)">256GB</button>
-      <button class="buy">Buy Now</button>
-      <h3>Verified Purchases</h3>
-      <div class="reviews">
-        <div class="review-card">
-          <div class="stars">★★★★★</div>
-          <p>Great build quality and smooth performance.</p>
-          <span>m***a • Dec 2025</span>
-        </div>
-        <div class="review-card">
-          <div class="stars">★★★★☆</div>
-          <p>Nice display, works well over WiFi.</p>
-          <span>A*****2 • Nov 2025</span>
-        </div>
-        <div class="review-card hidden extra-hyper">
-          <div class="stars">★★★★☆</div>
-          <p>Very good for the price, exceeded expectations.</p>
-        </div>
-        <div class="more" onclick="toggleReviews('hyper')">More reviews</div>
-      </div>
-    </div>
-  </div>
+
+<!-- ================= CD12 ================= -->
+<div class="product">
+
+<div class="image-box">
+<img id="cd12Main" src="https://ae-pic-a1.aliexpress-media.com/kf/Scd5aac5778da421cb6c39ce9c649fffbu.jpg">
+
+<div class="thumb-row">
+<img src="https://ae-pic-a1.aliexpress-media.com/kf/Sf890f95db20441d191522b7d3e04cf25K.jpg_960x960q75.jpg_.avif" onclick="setImg('cd12Main',this.src)">
+<img src="https://ae-pic-a1.aliexpress-media.com/kf/S7949f7bbfb774ec7823fa5eed4b5f40d3.jpg_960x960q75.jpg_.avif" onclick="setImg('cd12Main',this.src)">
+<img src="https://ae-pic-a1.aliexpress-media.com/kf/S8a6b6fc34e7f4a0d8311a052e7cc6a2fL.jpg_960x960q75.jpg_.avif" onclick="setImg('cd12Main',this.src)">
+<img src="https://ae-pic-a1.aliexpress-media.com/kf/S3280e213a4e84e048163a6c7c650a698k.jpg" onclick="setImg('cd12Main',this.src)">
+</div>
+</div>
+
+<div class="info">
+<h2>Wristly Ultra CD12</h2>
+<div class="price" id="cd12Price">£70.91</div>
+<div class="small">111 sold</div>
+
+<div class="small">Colour</div>
+<button onclick="setImg('cd12Main','https://ae-pic-a1.aliexpress-media.com/kf/Sf890f95db20441d191522b7d3e04cf25K.jpg_960x960q75.jpg_.avif')">Orange</button>
+<button onclick="setImg('cd12Main','https://ae-pic-a1.aliexpress-media.com/kf/S7949f7bbfb774ec7823fa5eed4b5f40d3.jpg_960x960q75.jpg_.avif')">Black</button>
+<button onclick="setImg('cd12Main','https://ae-pic-a1.aliexpress-media.com/kf/S8a6b6fc34e7f4a0d8311a052e7cc6a2fL.jpg_960x960q75.jpg_.avif')">Silver</button>
+<button onclick="setImg('cd12Main','https://ae-pic-a1.aliexpress-media.com/kf/S1c8de10fd64441469df9aa5b0122b297y.jpg_960x960q75.jpg_.avif')">Green</button>
+
+<div class="small">Storage</div>
+<button onclick="setPrice('cd12Price',70.91)">32GB</button>
+<button onclick="setPrice('cd12Price',78.91)">64GB</button>
+<button onclick="setPrice('cd12Price',86.91)">128GB</button>
+<button onclick="setPrice('cd12Price',94.91)">256GB</button>
+<button onclick="setPrice('cd12Price',102.91)">512GB</button>
+
+<button class="buy">Buy Now</button>
+<h3> Verified Purchases <h3>
+<div class="reviews">
+<div class="review-card">
+<div class="stars">★★★★★</div>
+<p>Really like it! Bigger than expected and works great.</p>
+<span>H****c • Apr 2026</span>
+</div>
+
+<div class="review-card">
+<div class="stars">★★★★☆</div>
+<p>Good value. Battery could be better with heavy use.</p>
+<span>V***i • Jan 2026</span>
+</div>
+
+<div class="review-card">
+<div class="stars">★★★★★</div>
+<p>Excellent quality and very responsive fingerprint.</p>
+<span>D***m• Apr 2026</span>
+</div>
+
+<div class="review-card hidden extra-cd12">
+<div class="stars">★★★☆☆</div>
+<p>Battery drains quickly but features are impressive.</p>
+</div>
+
+<div class="more" onclick="toggleReviews('cd12')">More reviews</div>
+</div>
+
+</div>
+</div>
+
+<!-- ================= HYPER SE ================= -->
+<div class="product">
+
+<div class="image-box">
+<img id="hyperMain" src="https://ae-pic-a1.aliexpress-media.com/kf/Sf843c0a1b8014a868f72a182f54172a1Z.jpg">
+</div>
+
+<div class="info">
+<h2>Wristly Hyper SE</h2>
+<div class="price" id="hyperPrice">£61.09</div>
+<div class="small">121 sold</div>
+
+<div class="small">Colour</div>
+<button onclick="setImg('hyperMain','https://ae-pic-a1.aliexpress-media.com/kf/Sf843c0a1b8014a868f72a182f54172a1Z.jpg')">Black</button>
+<button onclick="setImg('hyperMain','https://ae-pic-a1.aliexpress-media.com/kf/Saaa67c3391c540678b86411474cf220dO.jpg')">Silver</button>
+
+<div class="small">Storage</div>
+<button onclick="setPrice('hyperPrice',61.09)">32GB</button>
+<button onclick="setPrice('hyperPrice',69.09)">64GB</button>
+<button onclick="setPrice('hyperPrice',77.09)">128GB</button>
+<button onclick="setPrice('hyperPrice',85.09)">256GB</button>
+
+<button class="buy">Buy Now</button>
+<h3> Verified Purchases <h3>
+<div class="reviews">
+<div class="review-card">
+<div class="stars">★★★★★</div>
+<p>Great build quality and smooth performance.</p>
+<span>m***a • Dec 2025</span>
+</div>
+
+<div class="review-card">
+<div class="stars">★★★★☆</div>
+<p>Nice display, works well over WiFi.</p>
+<span>A*****2 • Nov 2025</span>
+</div>
+
+<div class="review-card hidden extra-hyper">
+<div class="stars">★★★★☆</div>
+<p>Very good for the price, exceeded expectations.</p>
+</div>
+
+<div class="more" onclick="toggleReviews('hyper')">More reviews</div>
+</div>
+
+</div>
+</div>
+
 </div>
 
 <script>
-/* =========================
-   UI UTILITIES
-========================= */
+function setImg(id, src) {
+  const img = document.getElementById(id);
 
-function setImg(elementId, src) {
-  const img = document.getElementById(elementId);
-
-  img.style.transition = "opacity 0.4s ease, transform 0.4s ease";
-  img.style.opacity = "0";
+  // smooth swap effect
+  img.style.opacity = 0;
   img.style.transform = "scale(0.98)";
 
   setTimeout(() => {
     img.src = src;
-    img.style.opacity = "1";
+    img.style.opacity = 1;
     img.style.transform = "scale(1)";
-  }, 180);
+  }, 120);
 }
 
-function setPrice(elementId, price) {
-  const el = document.getElementById(elementId);
+function setPrice(id, price) {
+  const el = document.getElementById(id);
 
-  el.style.transition = "transform 0.3s ease, opacity 0.3s ease";
-  el.style.transform = "scale(1.15)";
-  el.style.opacity = "0.5";
+  el.style.transform = "scale(1.1)";
+  el.style.opacity = 0.5;
 
   setTimeout(() => {
     el.innerText = "£" + price.toFixed(2);
     el.style.transform = "scale(1)";
-    el.style.opacity = "1";
-  }, 180);
+    el.style.opacity = 1;
+  }, 120);
 }
 
 function toggleReviews(type) {
-  const items = document.querySelectorAll(".extra-" + type);
+  document.querySelectorAll(".extra-" + type).forEach(e => {
+    e.classList.toggle("hidden");
 
-  items.forEach(item => {
-    const isHidden = item.classList.toggle("hidden");
-
-    if (!isHidden) {
-      item.style.opacity = "0";
-      item.style.transform = "translateY(10px)";
-
+    // micro animation per review card
+    if (!e.classList.contains("hidden")) {
+      e.style.opacity = 0;
+      e.style.transform = "translateY(10px)";
       setTimeout(() => {
-        item.style.transition = "opacity 0.4s ease, transform 0.4s ease";
-        item.style.opacity = "1";
-        item.style.transform = "translateY(0)";
+        e.style.transition = "0.4s ease";
+        e.style.opacity = 1;
+        e.style.transform = "translateY(0)";
       }, 50);
     }
   });
 }
 
 /* =========================
-   IMAGE VIEWER SYSTEM
+   IMAGE VIEWER (UPGRADED)
 ========================= */
 
-const viewer = document.getElementById("viewer");
-const viewerImage = document.getElementById("viewerImg");
+const viewer = document.getElementById('viewer');
+const viewerImg = document.getElementById('viewerImg');
 
-let isViewerActive = false;
-let animationFrameId = null;
-
-/* Interaction state */
 let scale = 1;
 let targetScale = 1;
 
-let rotationX = 0;
-let rotationY = 0;
-let targetRotationX = 0;
-let targetRotationY = 0;
+let mouseX = 0.5;
+let mouseY = 0.5;
 
-let pointerX = 0.5;
-let pointerY = 0.5;
+let rotX = 0;
+let rotY = 0;
 
-/* Open viewer */
-function openViewer(source) {
-  viewer.style.display = "flex";
-  viewer.classList.add("active");
+let targetRotX = 0;
+let targetRotY = 0;
 
-  viewerImage.src = source;
+let active = false;
+let animFrame = null;
 
-  /* reset state */
-  scale = targetScale = 1;
-  rotationX = rotationY = 0;
-  targetRotationX = targetRotationY = 0;
+function openViewer(src) {
+  viewerImg.src = src;
+  viewer.style.display = 'flex';
 
-  viewerImage.style.transition =
-    "transform 0.35s cubic-bezier(.2,.8,.2,1), opacity 0.3s ease";
+  // reset state
+  scale = 1;
+  targetScale = 1;
+  rotX = rotY = 0;
+  targetRotX = targetRotY = 0;
 
-  viewerImage.style.transform =
-    "scale(0.6) rotateX(10deg) rotateY(-10deg)";
+  viewerImg.style.transition = "transform 0.35s cubic-bezier(.2,.8,.2,1)";
+  viewerImg.style.transform = "scale(0.6) rotateX(10deg) rotateY(-10deg)";
+  viewerImg.style.opacity = "0";
 
-  viewerImage.style.opacity = "0";
-
+  // smooth entrance
   setTimeout(() => {
-    viewerImage.style.opacity = "1";
+    viewerImg.style.opacity = "1";
   }, 50);
 
-  isViewerActive = true;
+  setTimeout(() => {
+    viewerImg.style.transition = "none";
+  }, 400);
+
+  active = true;
   document.body.style.overflow = "hidden";
 
-  runViewerAnimation();
+  animate3D();
 }
 
-/* Close viewer */
 function closeViewer() {
-  isViewerActive = false;
-  document.body.style.overflow = "";
+  active = false;
+  document.body.style.overflow = "auto";
 
-  viewer.style.transition = "opacity 0.3s ease";
+  viewerImg.style.transition = "0.35s ease";
+  viewerImg.style.transform = "scale(0.6) rotateX(0deg) rotateY(0deg)";
   viewer.style.opacity = "0";
 
-  viewer.classList.remove("active");
-
-  viewerImage.style.transform =
-    "scale(0.6) rotateX(0deg) rotateY(0deg)";
-
   setTimeout(() => {
-    viewer.style.display = "none";
+    viewer.style.display = 'none';
     viewer.style.opacity = "1";
-  }, 300);
+  }, 250);
 
-  if (animationFrameId) cancelAnimationFrame(animationFrameId);
+  if (animFrame) cancelAnimationFrame(animFrame);
 }
 
 /* =========================
-   INPUT HANDLING
+   SMOOTH 3D LOOP
 ========================= */
 
-/* Pointer tracking */
-viewer.addEventListener("mousemove", (event) => {
-  pointerX = event.clientX / window.innerWidth;
-  pointerY = event.clientY / window.innerHeight;
+function animate3D() {
+  if (!active) return;
+
+  // smooth follow mouse
+  targetRotX += ((mouseY - 0.5) * -35 - targetRotX) * 0.08;
+  targetRotY += ((mouseX - 0.5) * 35 - targetRotY) * 0.08;
+
+  rotX += (targetRotX - rotX) * 0.12;
+  rotY += (targetRotY - rotY) * 0.12;
+
+  // smooth zoom
+  scale += (targetScale - scale) * 0.12;
+
+  viewerImg.style.transform =
+    `scale(${scale}) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+
+  animFrame = requestAnimationFrame(animate3D);
+}
+
+/* =========================
+   EVENTS
+========================= */
+
+viewer.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX / window.innerWidth;
+  mouseY = e.clientY / window.innerHeight;
 });
 
-/* Zoom control */
-viewerImage.addEventListener("wheel", (event) => {
-  event.preventDefault();
+// smooth zoom
+viewerImg.addEventListener('wheel', function(e) {
+  e.preventDefault();
 
-  targetScale += event.deltaY * -0.02;
+  targetScale += (e.deltaY < 0 ? 0.15 : -0.15);
   targetScale = Math.min(Math.max(targetScale, 0.5), 3);
 });
 
-/* Close on background click */
-viewer.addEventListener("click", (event) => {
-  if (event.target === viewer) closeViewer();
+// click background closes
+viewer.addEventListener('click', function(e) {
+  if (e.target === viewer) closeViewer();
 });
 
-/* =========================
-   IMAGE BINDING
-========================= */
+// attach to images
+document.querySelectorAll('.image-box img, .thumb-row img').forEach(img => {
+  img.style.cursor = 'zoom-in';
 
-document
-  .querySelectorAll(".image-box img, .thumb-row img")
-  .forEach((img) => {
-    img.style.cursor = "zoom-in";
-
-    img.addEventListener("click", () => {
-      openViewer(img.src);
-    });
+  img.addEventListener('click', (e) => {
+    e.stopPropagation();
+    openViewer(img.src);
   });
-
-/* =========================
-   OPTIONAL DRAG ROTATION
-========================= */
-
-let dragging = false;
-let lastPointerX = 0;
-let lastPointerY = 0;
-
-viewerImage.addEventListener("mousedown", (event) => {
-  dragging = true;
-  lastPointerX = event.clientX;
-  lastPointerY = event.clientY;
-  viewerImage.style.cursor = "grabbing";
-});
-
-document.addEventListener("mouseup", () => {
-  dragging = false;
-  viewerImage.style.cursor = "grab";
-});
-
-document.addEventListener("mousemove", (event) => {
-  if (!dragging) return;
-
-  const deltaX = event.clientX - lastPointerX;
-  const deltaY = event.clientY - lastPointerY;
-
-  targetRotationY += deltaX * 0.3;
-  targetRotationX -= deltaY * 0.3;
-
-  lastPointerX = event.clientX;
-  lastPointerY = event.clientY;
 });
 </script>
+
+
 </body>
 </html>
